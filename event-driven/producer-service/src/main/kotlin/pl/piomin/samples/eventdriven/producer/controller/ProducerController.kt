@@ -24,6 +24,14 @@ class ProducerController(val streamBridge: StreamBridge) {
     fun sendEventWithHeader(@PathVariable message: String, @PathVariable process: Boolean): Boolean {
         return streamBridge.send("callmeEventSupplier-out-0",
                 MessageBuilder.createMessage(CallmeEvent(++id, message),
-                        MessageHeaders(mutableMapOf(Pair<String, Any>("to_process", process)))))
+                        MessageHeaders(mapOf(
+                                "to_process" to process,
+                                "something" to Something("some")
+                        )
+                )))
+
+
     }
 }
+
+data class Something(val teste: String)
